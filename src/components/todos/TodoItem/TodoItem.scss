@@ -18,7 +18,11 @@
         color: green;
       }
     }
-
+    &__button {
+      &--small {
+        margin: 10px 0;
+      }
+    }
     &__status {
       display: inline-block;
       width: 70px;

@@ -5,14 +5,15 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, FieldProps, FieldArray } from 'formik';
 import FormItem from 'antd/lib/form/FormItem';
 import { CreateTodoModel } from '../../../dto/create-todo.model';
-
+import { InputProps } from 'antd/lib/input';
+const InputGroup = Input.Group;
 interface Props {
   addTodo(values: CreateTodoModel): void;
 }
 
 const createTodoValidationSchema = Yup.object().shape({
   text: Yup.string().required(),
-  tags: Yup.array(Yup.string())
+  tags: Yup.array(Yup.string().min(3))
 });
 
 export const TodoForm: React.FC<Props> = ({ addTodo }) => {
@@ -42,33 +43,36 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
           <FieldArray
             name='tags'
             render={arrayHelpers => (
-              <div>
-                {
-                  values.tags.length > 0
-                    ? values.tags.map((tag, index) => (
-                      <div key={index}>
-                        <Field name={`tags.${index}`} />
-                        <button
-                          type="button"
-                          onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                        >
-                          -
-                      </button>
-                        <button
-                          type="button"
-                          onClick={() => arrayHelpers.insert(index, '')} // insert an empty string at a position
-                        >
-                          +
-                      </button>
-                      </div>
-                    )) : (
-                      <button type="button" onClick={() => arrayHelpers.push('')}>
-                        {/* show this when user has removed all friends from the list */}
-                        Add a tag
-                    </button>
-                    )
-                }
-              </div>
+              <>
+                <InputGroup style={{
+                  display: 'flex',
+                  margin: '0 -10px',
+                  flexWrap: 'wrap',
+                  width: 'calc(100% + 20px)' }} >
+                  {
+                    values.tags.length > 0
+                    && values.tags.map((tag, index) => (
+                      <Field key={index} name={`tags.${index}`} render={({ field }: FieldProps) => (
+                        <FormItem
+                          style={{ width: '20%', padding: '10px' }}
+                          validateStatus={touched.tags && touched.tags[index] && errors.tags && errors.tags[index] ? 'error' : undefined}
+                          help={touched.tags && touched.tags[index] && errors.tags && errors.tags[index]}>
+                          <Input
+
+                            suffix={<Icon type="minus" onClick={() => arrayHelpers.remove(index)} />}
+                            {...field}
+                            size='large'
+                            type="text"
+                            className="todo-input" />
+                        </FormItem>
+                      )} />
+                    ))
+                  }
+                </InputGroup>
+                <Button className='todo__item__button--small' onClick={() => arrayHelpers.push('')}>
+                  Add a tag
+                            </Button>
+              </>
             )}
           />
           <Button
