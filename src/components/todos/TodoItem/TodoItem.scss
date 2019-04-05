@@ -1,0 +1,56 @@
+.todo {
+  &__item {
+    transition: .3s;
+    flex: 1;
+    color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    // &:hover,
+    &--completed {
+      background-color: #eee;
+      color: #666;
+      .todo__item__text {
+        text-decoration: line-through;
+      }
+      .todo__item__icon--toggle {
+        color: green;
+      }
+    }
+
+    &__status {
+      display: inline-block;
+      width: 70px;
+    }
+    &__text {
+      margin: 0;
+    }
+
+    &__icons {
+      display: flex;
+      align-items: center;
+      margin: 0 -5px;
+    }
+
+    &__icon {
+      cursor: pointer;
+      font-size: 20px;
+      transition: color .3s;
+
+      &--toggle {
+        color: green !important;
+      }
+
+      &--delete {
+        color: #ff0000 !important;
+      }
+    }
+  }
+}
+.todo__item__icon {
+  cursor: pointer;
+  font-size: 20px;
+  transition: color .3s;
+  margin: 0 5px;
+}

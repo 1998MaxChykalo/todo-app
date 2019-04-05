@@ -5,12 +5,21 @@
   "dependencies": {
     "@types/jest": "24.0.11",
     "@types/node": "11.11.7",
-    "@types/react": "16.8.8",
-    "@types/react-dom": "16.8.3",
+    "@types/yup": "^0.26.12",
+    "antd": "^3.15.2",
+    "formik": "^1.5.1",
+    "node-sass": "^4.11.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
+    "react-redux": "^6.0.1",
     "react-scripts": "2.1.8",
-    "typescript": "3.3.4000"
+    "redux": "^4.0.0-rc.1",
+    "redux-saga": "^1.0.2",
+    "reselect": "^4.0.0",
+    "styled-components": "^4.2.0",
+    "typescript": "3.3.4000",
+    "why-did-you-update": "^1.0.6",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,5 +35,12 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@types/react": "^16.8.10",
+    "@types/react-dom": "^16.8.3",
+    "@types/react-redux": "^7.0.5",
+    "@types/styled-components": "^4.1.12",
+    "redux-devtools-extension": "^2.13.8"
+  }
 }
