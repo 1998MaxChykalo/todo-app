@@ -1,5 +1,5 @@
 import { CreateTodoModel } from './../../dto/create-todo.model';
-import { TodoFilter } from './../../reducers/todoReducer';
+import { TodoStatus } from './../../reducers/todoReducer';
 import { TodoActionKeys } from './types';
 
 export const updateTodo = (id: number) => ({
@@ -17,7 +17,17 @@ export const addTodo = (values: CreateTodoModel) => ({
   payload: values
 });
 
-export const changeActiveFilter = (newActiveFilter: TodoFilter) => ({
+export const changeActiveFilter = (newActiveFilter: TodoStatus) => ({
   type: TodoActionKeys.CHANGE_ACTIVE_FILTER,
   payload: newActiveFilter
+});
+
+export const updateSearchTerm = (newSearchTerm: string) => ({
+  type: TodoActionKeys.UPDATE_SEARCH_TERM,
+  payload: newSearchTerm
+});
+
+export const searchTermChange = (newTerm: string) => ({
+  type: TodoActionKeys.SEARCH_TERM_CHANGED,
+  payload: newTerm
 });

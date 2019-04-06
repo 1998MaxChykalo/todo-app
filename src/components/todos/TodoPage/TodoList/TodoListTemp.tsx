@@ -1,20 +1,23 @@
 import * as React from 'react';
 
-import { ITodo } from '../../../reducers/todoReducer';
+import { ITodo } from '../../../../reducers/todoReducer';
 
 import { List } from 'antd';
 
-import './TodoList.scss';
-import { TodoItem } from '../TodoItem/TodoItem';
-import { IStateProps, IDispatchProps } from './TodoListContainer';
+import styled from 'styled-components';
+import { TodoItem } from './TodoItem/TodoItem';
+import { IStateProps, IDispatchProps } from './TodoList';
 
 type Props = IStateProps & IDispatchProps;
+
+const StyledList = styled(List)`
+  min-height: 168px;
+`
 
 export const TodoList: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => {
   console.log(todos);
   return (
-    <List
-      className='todo__list'
+    <StyledList
       size='large'
       bordered
       dataSource={todos}

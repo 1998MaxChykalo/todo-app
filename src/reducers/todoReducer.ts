@@ -8,25 +8,27 @@ export interface ITodo {
   id: number;
   text: string;
   isCompleted: boolean;
-  status?: TodoFilter;
+  status?: TodoStatus;
   createdAt?: Date;
   tags?: string[];
 }
 
-export enum TodoFilter {
+export enum TodoStatus {
   All, Active, Completed
 };
 
 export interface TodoState {
   todos: ITodo[];
-  filters: TodoFilter[];
-  activeFilter: TodoFilter;
+  filters: TodoStatus[];
+  activeFilter: TodoStatus;
+  searchTerm: string;
 }
 
 const initialState: TodoState = {
   todos: <ITodo[]>JSON.parse(localStorage.getItem('todos') || '[]'),
-  filters: [TodoFilter.All, TodoFilter.Active, TodoFilter.Completed],
-  activeFilter: TodoFilter.All
+  filters: [TodoStatus.All, TodoStatus.Active, TodoStatus.Completed],
+  activeFilter: TodoStatus.All,
+  searchTerm: ''
 };
 
 export default (state: TodoState = initialState, action: TodoActionTypes): TodoState => {
@@ -41,7 +43,7 @@ export default (state: TodoState = initialState, action: TodoActionTypes): TodoS
             id: Math.random(),
             isCompleted: false,
             createdAt: new Date(Date.now()),
-            status: TodoFilter.Active,
+            status: TodoStatus.Active,
             ...action.payload
           }
         ]
@@ -55,7 +57,7 @@ export default (state: TodoState = initialState, action: TodoActionTypes): TodoS
     case TodoActionKeys.UPDATE_TODO: {
       const updatedTodos = state.todos.map(todo => {
         if (todo.id === action.payload)
-          todo.status = TodoFilter.Active === todo.status ? TodoFilter.Completed : TodoFilter.Active;
+          todo.status = TodoStatus.Active === todo.status ? TodoStatus.Completed : TodoStatus.Active;
         return todo;
       })
       return {
@@ -68,6 +70,12 @@ export default (state: TodoState = initialState, action: TodoActionTypes): TodoS
         ...state,
         activeFilter: action.payload
       };
+    }
+    case TodoActionKeys.UPDATE_SEARCH_TERM: {
+      return {
+        ...state,
+        searchTerm: action.payload
+      }
     }
     default:
       return state;

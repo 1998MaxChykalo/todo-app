@@ -1,17 +1,16 @@
 import * as React from 'react';
 
-import { ITodo, TodoFilter } from '../../../reducers/todoReducer';
+import { ITodo, TodoStatus } from './../../../../reducers/todoReducer';
 
 import { Table, Icon, Tag } from 'antd';
 
-import { IStateProps, IDispatchProps } from './TodoListContainer';
+import { IStateProps, IDispatchProps } from './TodoList';
 
-import './../TodoItem/TodoItem.scss';
-import { ColumnProps } from 'antd/lib/table';
+import './TodoItem/TodoItem.scss';
 
 type Props = IStateProps & IDispatchProps;
 
-export const TodoList: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => {
+export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => {
   const columns = [
     {
       title: 'text',
@@ -26,7 +25,7 @@ export const TodoList: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => 
       dataIndex: 'status',
       key: 'status',
       render: (status: number) => (
-        <span className='todo__item__status'>{TodoFilter[status]}</span>
+        <span className='todo__item__status'>{TodoStatus[status]}</span>
       )
     },
     {
@@ -41,7 +40,7 @@ export const TodoList: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => 
       key: 'tags',
       render: (tags: string[]) => (
         <span>
-          {tags && tags.map(tag => <Tag color="blue" key={tag}>{tag}</Tag>)}
+          {tags && tags.map(tag => <Tag color="blue" key={tag}>#{tag}</Tag>)}
         </span>
       )
     },
@@ -49,12 +48,12 @@ export const TodoList: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => 
       title: 'Actions',
       key: 'actions',
       render: (record: ITodo) => {
-        console.log(record.status, TodoFilter.Completed)
+        console.log(record.status, TodoStatus.Completed)
         return <span className='todo__item__icons'>
           <Icon
             className="todo__item__icon todo__item__icon--toggle"
             onClick={() => updateTodo(record.id)}
-            type={record.status === TodoFilter.Completed ? "close-circle" : 'check-circle'} />
+            type={record.status === TodoStatus.Completed ? "close-circle" : 'check-circle'} />
           <Icon
             className="todo__item__icon todo__item__icon--delete"
             onClick={() => deleteTodo(record.id)}
@@ -63,5 +62,5 @@ export const TodoList: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => 
       }
     }
   ];
-  return <Table rowClassName={(record: ITodo) => record.status === TodoFilter.Completed ? 'todo__item--completed' : ''} columns={columns} dataSource={todos} pagination={false} />
+  return <Table rowClassName={(record: ITodo) => record.status === TodoStatus.Completed ? 'todo__item--completed' : ''} columns={columns} dataSource={todos} pagination={false} />
 };

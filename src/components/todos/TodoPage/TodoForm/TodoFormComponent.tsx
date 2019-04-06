@@ -4,9 +4,15 @@ import * as Yup from 'yup';
 
 import { Formik, Form, Field, FieldProps, FieldArray } from 'formik';
 import FormItem from 'antd/lib/form/FormItem';
-import { CreateTodoModel } from '../../../dto/create-todo.model';
-import { InputProps } from 'antd/lib/input';
-const InputGroup = Input.Group;
+import { CreateTodoModel } from '../../../../dto/create-todo.model';
+import styled from "styled-components";
+
+const InputGroup = styled(Input.Group)`
+  display: flex !important;
+  margin: 0 -10px !important;
+  flex-wrap: wrap;
+  width: calc(100% + 20px) !important;
+`;
 interface Props {
   addTodo(values: CreateTodoModel): void;
 }
@@ -22,11 +28,10 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
       initialValues={{ text: '', tags: [] }}
       validationSchema={createTodoValidationSchema}
       onSubmit={(values, { resetForm }) => {
-        console.log(values);
         addTodo(values);
         resetForm();
       }}
-      render={({ values, errors, status, touched, isSubmitting }) => (
+      render={({ values, errors, status, touched }) => (
         <Form className='my-5'>
           <Field type="text" name="text" render={({ field }: FieldProps) => (
             <FormItem
@@ -36,19 +41,14 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
                 {...field}
                 prefix={<Icon type="plus" />}
                 size='large'
-                type="text"
-                className="todo-input" />
+                type="text"/>
             </FormItem>
           )} />
           <FieldArray
             name='tags'
             render={arrayHelpers => (
               <>
-                <InputGroup style={{
-                  display: 'flex',
-                  margin: '0 -10px',
-                  flexWrap: 'wrap',
-                  width: 'calc(100% + 20px)' }} >
+                <InputGroup>
                   {
                     values.tags.length > 0
                     && values.tags.map((tag, index) => (
@@ -71,12 +71,12 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
                 </InputGroup>
                 <Button className='todo__item__button--small' onClick={() => arrayHelpers.push('')}>
                   Add a tag
-                            </Button>
+                </Button>
               </>
             )}
           />
           <Button
-            style={{ width: '100%' }} htmlType='submit' disabled={errors.text ? true : false} size='large' >Add ToDo</Button>
+            style={{ width: '100%' }} htmlType='submit' disabled={!!Object.keys(errors).length} size='large'>Add ToDo</Button>
         </Form>
       )}
     >

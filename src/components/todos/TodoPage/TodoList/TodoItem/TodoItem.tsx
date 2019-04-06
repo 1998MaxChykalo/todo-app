@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ITodo, TodoFilter } from '../../../reducers/todoReducer';
+import { ITodo } from './../../../../../reducers/todoReducer';
 import { List, Icon } from 'antd';
 
 import './TodoItem.scss';
