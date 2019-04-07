@@ -9,13 +9,14 @@ import { getActiveTodosByTerm } from '../../../../selectors/todo-selectors';
 import { ITodo } from '../../../../reducers/todoReducer';
 
 import { TodoListComponent } from './TodoListComponent';
+import { UpdateTodoModel } from '../../../../dto/update-todo.model';
 
-export interface IStateProps {
+export interface IStateProps { 
   todos: ITodo[];
 };
 export interface IDispatchProps {
   deleteTodo(id: number): void;
-  updateTodo(id: number): void;
+  updateTodo(updateTodoModel: UpdateTodoModel): void;
 }
 
 const mapStateToProps = (state: AppState): IStateProps => ({

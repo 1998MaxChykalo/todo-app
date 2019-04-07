@@ -1,6 +1,7 @@
 import { AppState } from './../store/index';
 import { createSelector } from 'reselect';
 import { ITodo, TodoStatus } from '../reducers/todoReducer';
+import moment from 'moment';
 
 export const getTodos = (state: AppState) =>
   state.todos.todos;
@@ -27,6 +28,10 @@ export const getActiveTodos = createSelector(
       );
   }
 );
+
+export const formatTime = (time: number) => {
+  return moment(time).format('HH:mm:ss');
+}
 
 export const getActiveTodosByTerm = createSelector(
   getActiveTodos,

@@ -1,5 +1,6 @@
+import { UpdateTodoModel } from './../../dto/update-todo.model';
 import { CreateTodoModel } from './../../dto/create-todo.model';
-import { TodoStatus } from './../../reducers/todoReducer';
+import { TodoStatus, ITodo } from './../../reducers/todoReducer';
 
 export enum TodoActionKeys {
   ADD_TODO = 'ADD_TODO',
@@ -13,7 +14,7 @@ export enum TodoActionKeys {
 
 export interface AddTodoAction {
   readonly type: TodoActionKeys.ADD_TODO;
-  readonly payload: CreateTodoModel;
+  readonly payload: ITodo;
 }
 
 export interface DeleteTodoAction {
@@ -23,7 +24,7 @@ export interface DeleteTodoAction {
 
 export interface UpdateTodoAction {
   readonly type: TodoActionKeys.UPDATE_TODO;
-  readonly payload: number;
+  readonly payload: UpdateTodoModel;
 }
 
 export interface ChangeActiveFilterAction {

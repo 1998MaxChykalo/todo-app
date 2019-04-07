@@ -25,7 +25,6 @@ const RadioGroup = styled(Radio.Group)`
 `;
 
 export const TodoFilterComponent: React.FC<Props> = ({ activeFilter, filters, changeActiveFilter }) => {
-
   const filtersMarkup = filters.map(
     filter => (
       <RadioButton

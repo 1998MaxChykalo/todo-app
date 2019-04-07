@@ -3,18 +3,18 @@ import {
   TodoActionKeys,
   TodoActionTypes
 } from './../actions/todo/types';
-
 export interface ITodo {
   id: number;
   text: string;
-  isCompleted: boolean;
   status?: TodoStatus;
   createdAt?: Date;
   tags?: string[];
+  estimatedTime?: number;
+  timeTillEnd?: number;
 }
 
 export enum TodoStatus {
-  All, Active, Completed
+  All, Active, Completed, 'In Progress', Paused
 };
 
 export interface TodoState {
@@ -26,7 +26,7 @@ export interface TodoState {
 
 const initialState: TodoState = {
   todos: <ITodo[]>JSON.parse(localStorage.getItem('todos') || '[]'),
-  filters: [TodoStatus.All, TodoStatus.Active, TodoStatus.Completed],
+  filters: Object.values(TodoStatus).filter(value => typeof value === 'number'),
   activeFilter: TodoStatus.All,
   searchTerm: ''
 };
@@ -38,14 +38,7 @@ export default (state: TodoState = initialState, action: TodoActionTypes): TodoS
         ...state,
         todos: [
           ...state.todos,
-          // TODO: remove, this is not pure function if we create randomized values/
-          { 
-            id: Math.random(),
-            isCompleted: false,
-            createdAt: new Date(Date.now()),
-            status: TodoStatus.Active,
-            ...action.payload
-          }
+          { ...action.payload }
         ]
       }
     case TodoActionKeys.DELETE_TODO: {
@@ -56,8 +49,8 @@ export default (state: TodoState = initialState, action: TodoActionTypes): TodoS
     }
     case TodoActionKeys.UPDATE_TODO: {
       const updatedTodos = state.todos.map(todo => {
-        if (todo.id === action.payload)
-          todo.status = TodoStatus.Active === todo.status ? TodoStatus.Completed : TodoStatus.Active;
+        if (todo.id === action.payload.id)
+          todo = { ...todo, ...action.payload };
         return todo;
       })
       return {

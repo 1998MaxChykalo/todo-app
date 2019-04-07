@@ -8,12 +8,10 @@ interface Props {
   activeFilter: TodoStatus;
   filters: TodoStatus[];
   changeActiveFilter(filter: TodoStatus): void;
-  // updateSearchTerm(newTerm: string): void;
   searchTermChange(newTerm: string): void;
 }
 
 export const TodoHeaderComponent: React.FC<Props> = ({
-  // updateSearchTerm
   searchTermChange
 }) => {
   return (

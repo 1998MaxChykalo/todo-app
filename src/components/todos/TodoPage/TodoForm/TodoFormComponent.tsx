@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Input, Button, Icon, Tag } from 'antd';
+import { Input, Button, Icon, Tag, InputNumber, TimePicker } from 'antd';
 import * as Yup from 'yup';
 
 import { Formik, Form, Field, FieldProps, FieldArray } from 'formik';
 import FormItem from 'antd/lib/form/FormItem';
 import { CreateTodoModel } from '../../../../dto/create-todo.model';
 import styled from "styled-components";
+import moment from 'moment';
 
 const InputGroup = styled(Input.Group)`
   display: flex !important;
@@ -19,13 +20,13 @@ interface Props {
 
 const createTodoValidationSchema = Yup.object().shape({
   text: Yup.string().required(),
-  tags: Yup.array(Yup.string().min(3))
+  tags: Yup.array(Yup.string().min(3)),
+  estimatedTime: Yup.number().min(0)
 });
-
 export const TodoForm: React.FC<Props> = ({ addTodo }) => {
   return (
     <Formik
-      initialValues={{ text: '', tags: [] }}
+      initialValues={{ text: '', tags: [], estimatedTime: 0 }}
       validationSchema={createTodoValidationSchema}
       onSubmit={(values, { resetForm }) => {
         addTodo(values);
@@ -33,6 +34,13 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
       }}
       render={({ values, errors, status, touched }) => (
         <Form className='my-5'>
+          <TimePicker
+            onChange={(props) => {
+              // console.log(props.unix());
+              values.estimatedTime = props.unix();
+            }}
+            defaultOpenValue={moment('00:00:00', 'HH:mm:ss')}
+            size='large' />
           <Field type="text" name="text" render={({ field }: FieldProps) => (
             <FormItem
               validateStatus={touched.text && errors.text ? 'error' : undefined}
@@ -41,7 +49,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
                 {...field}
                 prefix={<Icon type="plus" />}
                 size='large'
-                type="text"/>
+                type="text" />
             </FormItem>
           )} />
           <FieldArray

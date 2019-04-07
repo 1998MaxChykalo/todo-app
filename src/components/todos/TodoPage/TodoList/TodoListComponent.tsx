@@ -7,10 +7,25 @@ import { Table, Icon, Tag } from 'antd';
 import { IStateProps, IDispatchProps } from './TodoList';
 
 import './TodoItem/TodoItem.scss';
+import { formatTime } from '../../../../selectors/todo-selectors';
 
 type Props = IStateProps & IDispatchProps;
 
 export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => {
+  React.useEffect(() => {
+
+    const isInProgress = (todo: ITodo) => todo.status === TodoStatus['In Progress'];
+    const exist = <T, K extends keyof T>(prop: K, obj: T) => (obj[prop]) !== null && (obj[prop]) !== undefined;
+    const interval = setInterval(() => todos.filter(isInProgress).map(todo => {
+
+      if (todo.timeTillEnd) {
+        updateTodo({ id: todo.id, timeTillEnd: todo.timeTillEnd - 1000 < 0 ? 0 : todo.timeTillEnd - 1000 })
+      }
+    }), 1000);
+
+    return () => clearInterval(interval);
+  });
+
   const columns = [
     {
       title: 'text',
@@ -45,14 +60,37 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
       )
     },
     {
+      title: 'Estimated Time',
+      dataIndex: "estimatedTime",
+      key: 'estimatedTime',
+      render: (estimatedTime: number) => (
+        <span>
+          {estimatedTime && formatTime(estimatedTime)}
+        </span>
+      )
+    },
+    {
+      title: 'Left',
+      dataIndex: "timeTillEnd",
+      key: 'timeTillEnd',
+      render: (timeTillEnd: number) => (
+        <span>
+          {timeTillEnd && formatTime(timeTillEnd)}
+        </span>
+      )
+    },
+    {
       title: 'Actions',
       key: 'actions',
       render: (record: ITodo) => {
-        console.log(record.status, TodoStatus.Completed)
         return <span className='todo__item__icons'>
           <Icon
             className="todo__item__icon todo__item__icon--toggle"
-            onClick={() => updateTodo(record.id)}
+            onClick={() => updateTodo({ id: record.id, status: record.status === TodoStatus["In Progress"] ? TodoStatus.Paused : TodoStatus["In Progress"] })}
+            type={record.status === TodoStatus["In Progress"] ? "pause" : 'caret-right'} />
+          <Icon
+            className="todo__item__icon todo__item__icon--toggle"
+            onClick={() => updateTodo({ id: record.id, status: record.status === TodoStatus.Completed ? TodoStatus.Active : TodoStatus.Completed })}
             type={record.status === TodoStatus.Completed ? "close-circle" : 'check-circle'} />
           <Icon
             className="todo__item__icon todo__item__icon--delete"

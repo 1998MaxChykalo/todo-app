@@ -1,10 +1,11 @@
 import { CreateTodoModel } from './../../dto/create-todo.model';
 import { TodoStatus } from './../../reducers/todoReducer';
 import { TodoActionKeys } from './types';
+import { UpdateTodoModel } from '../../dto/update-todo.model';
 
-export const updateTodo = (id: number) => ({
+export const updateTodo = (todo: UpdateTodoModel) => ({
   type: TodoActionKeys.UPDATE_TODO,
-  payload: id
+  payload: todo
 });
 
 export const deleteTodo = (id: number) => ({
@@ -14,7 +15,13 @@ export const deleteTodo = (id: number) => ({
 
 export const addTodo = (values: CreateTodoModel) => ({
   type: TodoActionKeys.ADD_TODO,
-  payload: values
+  payload: {
+    id: Math.random(),
+    createdAt: new Date(Date.now()),
+    status: TodoStatus.Active,
+    timeTillEnd: values.estimatedTime,
+    ...values,
+  }
 });
 
 export const changeActiveFilter = (newActiveFilter: TodoStatus) => ({
