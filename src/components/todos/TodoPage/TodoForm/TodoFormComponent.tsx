@@ -23,6 +23,7 @@ const createTodoValidationSchema = Yup.object().shape({
   tags: Yup.array(Yup.string().min(3)),
   estimatedTime: Yup.number().min(0)
 });
+
 export const TodoForm: React.FC<Props> = ({ addTodo }) => {
   return (
     <Formik
@@ -33,11 +34,11 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
         resetForm();
       }}
       render={({ values, errors, status, touched }) => (
-        <Form className='my-5'>
+        <Form className='my-3'>
           <TimePicker
+            className='my-2'
             onChange={(props) => {
-              // console.log(props.unix());
-              values.estimatedTime = props.unix();
+              values.estimatedTime = props.toDate().getTime();
             }}
             defaultOpenValue={moment('00:00:00', 'HH:mm:ss')}
             size='large' />
