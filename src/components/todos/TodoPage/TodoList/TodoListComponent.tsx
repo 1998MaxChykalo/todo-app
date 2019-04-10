@@ -6,12 +6,16 @@ import { Table, Icon, Tag } from 'antd';
 
 import { IStateProps, IDispatchProps } from './TodoList';
 
+import { useTranslation } from 'react-i18next';
+
 import './TodoItem/TodoItem.scss';
 import { formatTime } from '../../../../selectors/todo-selectors';
 
 type Props = IStateProps & IDispatchProps;
 
 export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => {
+
+  const { t, i18n } = useTranslation();
   React.useEffect(() => {
 
     const isInProgress = (todo: ITodo) => todo.status === TodoStatus['In Progress'];
@@ -28,7 +32,7 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
 
   const columns = [
     {
-      title: 'text',
+      title: t('text'),
       dataIndex: 'text',
       key: 'text',
       render: (text: string) => (
