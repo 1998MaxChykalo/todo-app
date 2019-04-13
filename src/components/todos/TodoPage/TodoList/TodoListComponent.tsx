@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { ITodo, TodoStatus } from './../../../../reducers/todoReducer';
 
-import { Table, Icon, Tag } from 'antd';
+import { Table, Icon, Tag, Form, Radio } from 'antd';
 
 import { IStateProps, IDispatchProps } from './TodoList';
 
@@ -10,16 +10,16 @@ import { useTranslation } from 'react-i18next';
 
 import './TodoItem/TodoItem.scss';
 import { formatTime } from '../../../../selectors/todo-selectors';
-
+import FormItem from 'antd/lib/form/FormItem';
+import {ColumnProps} from 'antd/lib/table';
 type Props = IStateProps & IDispatchProps;
 
-export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTodo }) => {
+export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTodo, sortTodos }) => {
 
   const { t, i18n } = useTranslation();
   React.useEffect(() => {
 
     const isInProgress = (todo: ITodo) => todo.status === TodoStatus['In Progress'];
-    const exist = <T, K extends keyof T>(prop: K, obj: T) => (obj[prop]) !== null && (obj[prop]) !== undefined;
     const interval = setInterval(() => todos.filter(isInProgress).map(todo => {
 
       if (todo.timeTillEnd) {
@@ -29,62 +29,72 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
 
     return () => clearInterval(interval);
   });
-
   const columns = [
     {
-      title: t('text'),
+      align: 'center' as 'center',
+      title: t('todo', {returnObjects: true})['text' as any],
       dataIndex: 'text',
       key: 'text',
+      // defaultSortOrder: 'descend',
+      sorter: (a: ITodo, b: ITodo) => a.text.length - b.text.length,
       render: (text: string) => (
         <span className='todo__item__text'>{text}</span>
       )
     },
     {
-      title: 'status',
+      align: 'center' as 'center',
+      title: t('todo', {returnObjects: true})['status' as any],
       dataIndex: 'status',
       key: 'status',
       render: (status: number) => (
-        <span className='todo__item__status'>{TodoStatus[status]}</span>
+        <span className='todo__item__status'>{t(TodoStatus[status])}</span>
       )
     },
     {
-      title: 'createdAt',
+      align: 'center' as 'center',
+      title: t('todo', {returnObjects: true})['createdAt' as any],
       dataIndex: 'createdAt',
       key: 'createdAt',
+      // defaultSortOrder: 'descend',
+      sorter: (a: ITodo, b: ITodo) =>  a.createdAt > b.createdAt ? 1 : -1,
       render: (date: Date) => <span>{new Date(date).toLocaleDateString()}</span>
     },
     {
-      title: 'Tags',
+      align: 'center' as 'center',
+      title: t('todo', {returnObjects: true})['tags' as any],
       dataIndex: "tags",
       key: 'tags',
       render: (tags: string[]) => (
         <span>
-          {tags && tags.map(tag => <Tag color="blue" key={tag}>#{tag}</Tag>)}
+          {tags.length > 0 ? tags.map(tag => <Tag color="blue" key={tag}>#{tag}</Tag>) : '-'}
         </span>
       )
     },
     {
-      title: 'Estimated Time',
+      align: 'center' as 'center',
+      title: t('todo', {returnObjects: true})['estimatedTime' as any],
       dataIndex: "estimatedTime",
       key: 'estimatedTime',
       render: (estimatedTime: number) => (
         <span>
-          {estimatedTime && formatTime(estimatedTime)}
+          {estimatedTime > 0 ? formatTime(estimatedTime) : '-'}
         </span>
       )
     },
     {
-      title: 'Left',
+      align: 'center' as 'center',
+      title: t('todo', {returnObjects: true})['left' as any],
       dataIndex: "timeTillEnd",
       key: 'timeTillEnd',
       render: (timeTillEnd: number) => (
         <span>
-          {timeTillEnd && formatTime(timeTillEnd)}
+          {timeTillEnd > 0 ? formatTime(timeTillEnd) : '-'}
         </span>
       )
     },
     {
-      title: 'Actions',
+      align: 'center' as 'center',
+      title: t('todo', {returnObjects: true})['actions' as any],
       key: 'actions',
       render: (record: ITodo) => {
         return <span className='todo__item__icons'>
@@ -104,5 +114,19 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
       }
     }
   ];
-  return <Table rowClassName={(record: ITodo) => record.status === TodoStatus.Completed ? 'todo__item--completed' : ''} columns={columns} dataSource={todos} pagination={false} />
+  
+  return (
+    <>
+    <Form layout="inline">
+        <FormItem label={t('sortBy')}>
+      <Radio.Group size="default" onChange={(e) => sortTodos(e.target.value)}>
+        <Radio.Button value="createdAt">{t('date')}</Radio.Button>
+        <Radio.Button value="text">{t('text')}</Radio.Button>
+        <Radio.Button value="estimatedTime">{t('estimatedTime')}</Radio.Button>
+      </Radio.Group>
+    </FormItem>
+  </Form>
+    <Table rowClassName={(record: ITodo) => record.status === TodoStatus.Completed ? 'todo__item--completed' : ''} columns={columns} dataSource={todos} pagination={false} />
+    </>
+  )
 };

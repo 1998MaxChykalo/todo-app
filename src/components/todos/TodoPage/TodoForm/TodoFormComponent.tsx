@@ -7,6 +7,7 @@ import FormItem from 'antd/lib/form/FormItem';
 import { CreateTodoModel } from '../../../../dto/create-todo.model';
 import styled from "styled-components";
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 const InputGroup = styled(Input.Group)`
   display: flex !important;
@@ -24,7 +25,10 @@ const createTodoValidationSchema = Yup.object().shape({
   estimatedTime: Yup.number().min(0)
 });
 
+const hasKeys = (obj: object) => Object.keys(obj).length > 0;
+
 export const TodoForm: React.FC<Props> = ({ addTodo }) => {
+  const { t, i18n } = useTranslation();
   return (
     <Formik
       initialValues={{ text: '', tags: [], estimatedTime: 0 }}
@@ -37,11 +41,13 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
         <Form className='my-3'>
           <TimePicker
             className='my-2'
+            size='large'
+            style={{width: '150px'}}
+            placeholder={t('selectTime')}
             onChange={(props) => {
               values.estimatedTime = props.toDate().getTime();
             }}
-            defaultOpenValue={moment('00:00:00', 'HH:mm:ss')}
-            size='large' />
+            defaultOpenValue={moment('00:00:00', 'HH:mm:ss')}/>
           <Field type="text" name="text" render={({ field }: FieldProps) => (
             <FormItem
               validateStatus={touched.text && errors.text ? 'error' : undefined}
@@ -79,17 +85,22 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
                   }
                 </InputGroup>
                 <Button className='todo__item__button--small' onClick={() => arrayHelpers.push('')}>
-                  Add a tag
+                  {t('addTag')}
                 </Button>
               </>
             )}
           />
           <Button
-            style={{ width: '100%' }} htmlType='submit' disabled={!!Object.keys(errors).length} size='large'>Add ToDo</Button>
+            style={{ width: '100%' }}
+            htmlType='submit'
+            disabled={hasKeys(errors)}
+            size='large'
+            >
+              {t('addToDo')}
+            </Button>
         </Form>
       )}
     >
     </Formik>
   )
 };
-

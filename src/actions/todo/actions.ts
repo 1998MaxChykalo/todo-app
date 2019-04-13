@@ -1,5 +1,5 @@
 import { CreateTodoModel } from './../../dto/create-todo.model';
-import { TodoStatus } from './../../reducers/todoReducer';
+import { TodoStatus, ITodo, ISortableTodoColumns } from './../../reducers/todoReducer';
 import { TodoActionKeys } from './types';
 import { UpdateTodoModel } from '../../dto/update-todo.model';
 
@@ -11,6 +11,11 @@ export const updateTodo = (todo: UpdateTodoModel) => ({
 export const deleteTodo = (id: number) => ({
   type: TodoActionKeys.DELETE_TODO,
   payload: id
+});
+
+export const sortTodos = (column: keyof ISortableTodoColumns) => ({
+  type: TodoActionKeys.SORT_TODOS,
+  payload: column
 });
 
 export const addTodo = (values: CreateTodoModel) => ({
@@ -38,3 +43,4 @@ export const searchTermChange = (newTerm: string) => ({
   type: TodoActionKeys.SEARCH_TERM_CHANGED,
   payload: newTerm
 });
+

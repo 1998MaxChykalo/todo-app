@@ -1,6 +1,6 @@
 import { UpdateTodoModel } from './../../dto/update-todo.model';
 import { CreateTodoModel } from './../../dto/create-todo.model';
-import { TodoStatus, ITodo } from './../../reducers/todoReducer';
+import { TodoStatus, ITodo, ISortableTodoColumns } from './../../reducers/todoReducer';
 
 export enum TodoActionKeys {
   ADD_TODO = 'ADD_TODO',
@@ -9,6 +9,7 @@ export enum TodoActionKeys {
   CHANGE_ACTIVE_FILTER = 'CHANGE_ACTIVE_FILTER',
   UPDATE_SEARCH_TERM = 'UPDATE_SEARCH_TERM',
   SEARCH_TERM_CHANGED = 'SEARCH_TERM_CHANGED',
+  SORT_TODOS = 'SORT_TODOS'
 
 }
 
@@ -37,9 +38,16 @@ export interface UpdateSearchTermAction {
   readonly payload: string;
 }
 
+export interface SortTodosAction {
+  readonly type: TodoActionKeys.SORT_TODOS;
+  readonly payload: keyof ISortableTodoColumns;
+}
+
+
 
 export type TodoActionTypes = AddTodoAction
   | DeleteTodoAction
   | UpdateTodoAction
   | ChangeActiveFilterAction
-  | UpdateSearchTermAction;
+  | UpdateSearchTermAction
+  | SortTodosAction;

@@ -3,13 +3,19 @@ import {
   TodoActionKeys,
   TodoActionTypes
 } from './../actions/todo/types';
+
+export interface ISortableTodoColumns {
+  text: string;
+  createdAt: Date;
+  estimatedTime?: number;
+}
 export interface ITodo {
   id: number;
   text: string;
   status?: TodoStatus;
-  createdAt?: Date;
+  createdAt: Date;
   tags?: string[];
-  estimatedTime?: number;
+  estimatedTime: number;
   timeTillEnd?: number;
 }
 
@@ -68,6 +74,12 @@ export default (state: TodoState = initialState, action: TodoActionTypes): TodoS
       return {
         ...state,
         searchTerm: action.payload
+      }
+    }
+    case TodoActionKeys.SORT_TODOS: {
+      return {
+        ...state,
+        todos: [...state.todos].sort((a: ITodo, b: ITodo) => a[action.payload] > b[action.payload] ? 1 : -1)
       }
     }
     default:
