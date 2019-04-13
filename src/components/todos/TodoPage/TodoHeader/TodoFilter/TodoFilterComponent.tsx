@@ -4,6 +4,7 @@ import { TodoStatus } from '../../../../../reducers/todoReducer';
 import styled from "styled-components";
 
 import { Radio } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   activeFilter: TodoStatus;
@@ -25,12 +26,14 @@ const RadioGroup = styled(Radio.Group)`
 `;
 
 export const TodoFilterComponent: React.FC<Props> = ({ activeFilter, filters, changeActiveFilter }) => {
+  const { t, i18n } = useTranslation();
+
   const filtersMarkup = filters.map(
     filter => (
       <RadioButton
         key={filter}
         value={filter}>
-        {TodoStatus[filter]}
+        {t('todo',{returnObjects: true})['statuses' as any][TodoStatus[filter] as any]}
       </RadioButton>
     )
   );

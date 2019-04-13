@@ -32,7 +32,7 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
   const columns = [
     {
       align: 'center' as 'center',
-      title: t('text'),
+      title: t('todo', {returnObjects: true})['text' as any],
       dataIndex: 'text',
       key: 'text',
       // defaultSortOrder: 'descend',
@@ -43,16 +43,16 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
     },
     {
       align: 'center' as 'center',
-      title: 'status',
+      title: t('todo', {returnObjects: true})['status' as any],
       dataIndex: 'status',
       key: 'status',
       render: (status: number) => (
-        <span className='todo__item__status'>{TodoStatus[status]}</span>
+        <span className='todo__item__status'>{t(TodoStatus[status])}</span>
       )
     },
     {
       align: 'center' as 'center',
-      title: 'createdAt',
+      title: t('todo', {returnObjects: true})['createdAt' as any],
       dataIndex: 'createdAt',
       key: 'createdAt',
       // defaultSortOrder: 'descend',
@@ -61,7 +61,7 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
     },
     {
       align: 'center' as 'center',
-      title: 'Tags',
+      title: t('todo', {returnObjects: true})['tags' as any],
       dataIndex: "tags",
       key: 'tags',
       render: (tags: string[]) => (
@@ -72,7 +72,7 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
     },
     {
       align: 'center' as 'center',
-      title: 'Estimated Time',
+      title: t('todo', {returnObjects: true})['estimatedTime' as any],
       dataIndex: "estimatedTime",
       key: 'estimatedTime',
       render: (estimatedTime: number) => (
@@ -83,7 +83,7 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
     },
     {
       align: 'center' as 'center',
-      title: 'Left',
+      title: t('todo', {returnObjects: true})['left' as any],
       dataIndex: "timeTillEnd",
       key: 'timeTillEnd',
       render: (timeTillEnd: number) => (
@@ -94,7 +94,7 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
     },
     {
       align: 'center' as 'center',
-      title: 'Actions',
+      title: t('todo', {returnObjects: true})['actions' as any],
       key: 'actions',
       render: (record: ITodo) => {
         return <span className='todo__item__icons'>
@@ -118,11 +118,11 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
   return (
     <>
     <Form layout="inline">
-        <FormItem label="Sort By">
+        <FormItem label={t('sortBy')}>
       <Radio.Group size="default" onChange={(e) => sortTodos(e.target.value)}>
-        <Radio.Button value="createdAt">Date</Radio.Button>
-        <Radio.Button value="text">Name</Radio.Button>
-        <Radio.Button value="estimatedTime">Estimated Time</Radio.Button>
+        <Radio.Button value="createdAt">{t('date')}</Radio.Button>
+        <Radio.Button value="text">{t('text')}</Radio.Button>
+        <Radio.Button value="estimatedTime">{t('estimatedTime')}</Radio.Button>
       </Radio.Group>
     </FormItem>
   </Form>

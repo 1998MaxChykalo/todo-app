@@ -26,4 +26,7 @@ const mapStateToProps = (state: AppState): IStateProps => ({
 
 const mapDispatchToProps = { deleteTodo, updateTodo, sortTodos }
 
-export default connect<IStateProps, IDispatchProps, null, AppState>(mapStateToProps, mapDispatchToProps)(TodoListComponent);
+export default connect<IStateProps, IDispatchProps, null, AppState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoListComponent);
