@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import { ITodo, TodoStatus } from './../../../../reducers/todoReducer';
-
 import { Table, Icon, Tag, Form, Radio } from 'antd';
 
 import { IStateProps, IDispatchProps } from './TodoList';
@@ -11,24 +9,13 @@ import { useTranslation } from 'react-i18next';
 import './TodoItem/TodoItem.scss';
 import { formatTime } from '../../../../selectors/todo-selectors';
 import FormItem from 'antd/lib/form/FormItem';
-import {ColumnProps} from 'antd/lib/table';
+import { TodoStatus } from '../../../../models/todo/TodoStatus';
+import ITodo from '../../../../models/todo/ITodo';
 type Props = IStateProps & IDispatchProps;
 
 export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTodo, sortTodos }) => {
 
   const { t, i18n } = useTranslation();
-  React.useEffect(() => {
-
-    const isInProgress = (todo: ITodo) => todo.status === TodoStatus['In Progress'];
-    const interval = setInterval(() => todos.filter(isInProgress).map(todo => {
-
-      if (todo.timeTillEnd) {
-        updateTodo({ id: todo.id, timeTillEnd: todo.timeTillEnd - 1000 < 0 ? 0 : todo.timeTillEnd - 1000 })
-      }
-    }), 1000);
-
-    return () => clearInterval(interval);
-  });
   const columns = [
     {
       align: 'center' as 'center',
@@ -86,9 +73,9 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
       title: t('todo', {returnObjects: true})['left' as any],
       dataIndex: "timeTillEnd",
       key: 'timeTillEnd',
-      render: (timeTillEnd: number) => (
+      render: (timeTillEnd: number, todo: ITodo) => (
         <span>
-          {timeTillEnd > 0 ? formatTime(timeTillEnd) : '-'}
+          {formatTime(timeTillEnd)}
         </span>
       )
     },

@@ -1,7 +1,8 @@
 import { AppState } from './../store/index';
 import { createSelector } from 'reselect';
-import { ITodo, TodoStatus } from '../reducers/todoReducer';
 import moment from 'moment';
+import { TodoStatus } from '../models/todo/TodoStatus';
+import ITodo from '../models/todo/ITodo';
 
 export const getTodos = (state: AppState) =>
   state.todos.todos;

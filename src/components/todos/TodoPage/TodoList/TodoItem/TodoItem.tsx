@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { ITodo, TodoStatus } from './../../../../../reducers/todoReducer';
+
 import { List, Icon } from 'antd';
 
 import './TodoItem.scss';
+import { TodoStatus } from '../../../../../models/todo/TodoStatus';
+import ITodo from '../../../../../models/todo/ITodo';
 
 interface TodoItemProps {
   todo: ITodo;

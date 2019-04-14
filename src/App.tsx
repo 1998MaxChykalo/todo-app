@@ -1,11 +1,11 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TodoPage from './components/todos/TodoPage/TodoPage';
 import { Layout } from 'antd';
 
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 import { AppState } from './store';
-import { ITodo } from './reducers/todoReducer';
+import ITodo from './models/todo/ITodo';
 
 interface Props {
   todos: ITodo[]

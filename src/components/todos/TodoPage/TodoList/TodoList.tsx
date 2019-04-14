@@ -6,10 +6,11 @@ import { deleteTodo, updateTodo, sortTodos } from '../../../../actions/todo/acti
 
 import { getActiveTodosByTerm } from '../../../../selectors/todo-selectors';
 
-import { ITodo, ISortableTodoColumns } from '../../../../reducers/todoReducer';
 
 import { TodoListComponent } from './TodoListComponent';
 import { UpdateTodoModel } from '../../../../dto/update-todo.model';
+import ITodo from '../../../../models/todo/ITodo';
+import ISortableTodoColumns from '../../../../models/todo/ISortableTodoColumns';
 
 export interface IStateProps { 
   todos: ITodo[];

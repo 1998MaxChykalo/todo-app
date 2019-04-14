@@ -1,49 +1,13 @@
-import todos from "./../__data/Todos";
-import { TodoActionKeys, TodoActionTypes } from "./../actions/todo/types";
-import { prop } from "ramda";
-import compose from "ramda/es/compose";
-import { decrementTimeTillEndIfInProgress } from "../utils/todo/decrementTimeTillEnd";
-export interface ISortableTodoColumns {
-  text: string;
-  createdAt: Date;
-  estimatedTime?: number;
-}
-export interface ITodo {
-  id: number;
-  text: string;
-  status?: TodoStatus;
-  createdAt: Date;
-  tags?: string[];
-  estimatedTime: number;
-  timeTillEnd?: number;
-}
-
-export enum TodoStatus {
-  All,
-  Active,
-  Completed,
-  "In Progress",
-  Paused
-}
-
-export interface TodoState {
-  todos: ITodo[];
-  filters: TodoStatus[];
-  activeFilter: TodoStatus;
-  searchTerm: string;
-}
-
-const initialState: TodoState = {
-  todos: <ITodo[]>JSON.parse(localStorage.getItem("todos") || "[]"),
-  filters: Object.values(TodoStatus).filter(value => typeof value === "number"),
-  activeFilter: TodoStatus.All,
-  searchTerm: ""
-};
+import { ITodoState } from "./ITodoState";
+import initialState from "./initialState";
+import ITodo from "../../models/todo/ITodo";
+import { TodoActionTypes, TodoActionKeys } from "../../actions/todo/types";
+import { decrementTimeTillEndIfInProgress } from "../../utils/todo/decrementTimeTillEnd";
 
 export default (
-  state: TodoState = initialState,
+  state: ITodoState = initialState,
   action: TodoActionTypes
-): TodoState => {
+): ITodoState => {
   switch (action.type) {
     case TodoActionKeys.ADD_TODO:
       return {
@@ -86,6 +50,8 @@ export default (
       };
     }
     case TodoActionKeys.TIME_TILL_END_TICK: {
+      console.log(state.todos.map(decrementTimeTillEndIfInProgress).map(todo => todo.timeTillEnd));
+      console.log(state.todos.map(decrementTimeTillEndIfInProgress).map(todo => todo.estimatedTime));
       return {
         ...state,
         todos: state.todos.map(decrementTimeTillEndIfInProgress)
