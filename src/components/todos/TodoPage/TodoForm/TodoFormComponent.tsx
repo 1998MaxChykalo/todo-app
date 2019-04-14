@@ -8,6 +8,7 @@ import { CreateTodoModel } from '../../../../dto/create-todo.model';
 import styled from "styled-components";
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import { mapTimeToMilliseconds } from '../../../../utils/todo';
 
 const InputGroup = styled(Input.Group)`
   display: flex !important;
@@ -45,7 +46,7 @@ export const TodoForm: React.FC<Props> = ({ addTodo }) => {
             style={{width: '150px'}}
             placeholder={t('selectTime')}
             onChange={(props) => {
-              values.estimatedTime = props.toDate().getTime();
+              values.estimatedTime = mapTimeToMilliseconds(props);
             }}
             defaultOpenValue={moment('00:00:00', 'HH:mm:ss')}/>
           <Field type="text" name="text" render={({ field }: FieldProps) => (

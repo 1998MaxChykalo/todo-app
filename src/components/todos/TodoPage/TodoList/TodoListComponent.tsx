@@ -64,7 +64,7 @@ export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTo
       key: 'estimatedTime',
       render: (estimatedTime: number) => (
         <span>
-          {estimatedTime > 0 ? formatTime(estimatedTime) : '-'}
+          {formatTime(estimatedTime)}
         </span>
       )
     },

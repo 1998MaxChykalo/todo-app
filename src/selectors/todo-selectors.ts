@@ -31,7 +31,7 @@ export const getActiveTodos = createSelector(
 );
 
 export const formatTime = (time: number) => {
-  return moment(time).format('HH:mm:ss');
+  return moment(time).utcOffset(0).format('HH:mm:ss');
 }
 
 export const getActiveTodosByTerm = createSelector(

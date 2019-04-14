@@ -50,8 +50,8 @@ export default (
       };
     }
     case TodoActionKeys.TIME_TILL_END_TICK: {
-      console.log(state.todos.map(decrementTimeTillEndIfInProgress).map(todo => todo.timeTillEnd));
-      console.log(state.todos.map(decrementTimeTillEndIfInProgress).map(todo => todo.estimatedTime));
+      // console.log(state.todos.map(decrementTimeTillEndIfInProgress).map(todo => todo.timeTillEnd));
+      // console.log(state.todos.map(decrementTimeTillEndIfInProgress).map(todo => todo.estimatedTime));
       return {
         ...state,
         todos: state.todos.map(decrementTimeTillEndIfInProgress)
