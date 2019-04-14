@@ -9,9 +9,9 @@ export enum TodoActionKeys {
   CHANGE_ACTIVE_FILTER = 'CHANGE_ACTIVE_FILTER',
   UPDATE_SEARCH_TERM = 'UPDATE_SEARCH_TERM',
   SEARCH_TERM_CHANGED = 'SEARCH_TERM_CHANGED',
-  SORT_TODOS = 'SORT_TODOS'
-
-}
+  SORT_TODOS = 'SORT_TODOS',
+  TIME_TILL_END_TICK = 'TIME_TILL_END_TICK',
+};
 
 export interface AddTodoAction {
   readonly type: TodoActionKeys.ADD_TODO;
@@ -43,11 +43,14 @@ export interface SortTodosAction {
   readonly payload: keyof ISortableTodoColumns;
 }
 
-
+export interface TimeTillEndTickAction {
+  readonly type: TodoActionKeys.TIME_TILL_END_TICK;
+}
 
 export type TodoActionTypes = AddTodoAction
   | DeleteTodoAction
   | UpdateTodoAction
   | ChangeActiveFilterAction
   | UpdateSearchTermAction
-  | SortTodosAction;
+  | SortTodosAction
+  | TimeTillEndTickAction;

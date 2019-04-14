@@ -1,9 +1,8 @@
-import todos from './../__data/Todos';
-import {
-  TodoActionKeys,
-  TodoActionTypes
-} from './../actions/todo/types';
-
+import todos from "./../__data/Todos";
+import { TodoActionKeys, TodoActionTypes } from "./../actions/todo/types";
+import { prop } from "ramda";
+import compose from "ramda/es/compose";
+import { decrementTimeTillEndIfInProgress } from "../utils/todo/decrementTimeTillEnd";
 export interface ISortableTodoColumns {
   text: string;
   createdAt: Date;
@@ -20,8 +19,12 @@ export interface ITodo {
 }
 
 export enum TodoStatus {
-  All, Active, Completed, 'In Progress', Paused
-};
+  All,
+  Active,
+  Completed,
+  "In Progress",
+  Paused
+}
 
 export interface TodoState {
   todos: ITodo[];
@@ -31,22 +34,22 @@ export interface TodoState {
 }
 
 const initialState: TodoState = {
-  todos: <ITodo[]>JSON.parse(localStorage.getItem('todos') || '[]'),
-  filters: Object.values(TodoStatus).filter(value => typeof value === 'number'),
+  todos: <ITodo[]>JSON.parse(localStorage.getItem("todos") || "[]"),
+  filters: Object.values(TodoStatus).filter(value => typeof value === "number"),
   activeFilter: TodoStatus.All,
-  searchTerm: ''
+  searchTerm: ""
 };
 
-export default (state: TodoState = initialState, action: TodoActionTypes): TodoState => {
+export default (
+  state: TodoState = initialState,
+  action: TodoActionTypes
+): TodoState => {
   switch (action.type) {
     case TodoActionKeys.ADD_TODO:
       return {
         ...state,
-        todos: [
-          ...state.todos,
-          { ...action.payload }
-        ]
-      }
+        todos: [...state.todos, { ...action.payload }]
+      };
     case TodoActionKeys.DELETE_TODO: {
       return {
         ...state,
@@ -54,14 +57,12 @@ export default (state: TodoState = initialState, action: TodoActionTypes): TodoS
       };
     }
     case TodoActionKeys.UPDATE_TODO: {
-      const updatedTodos = state.todos.map(todo => {
-        if (todo.id === action.payload.id)
-          todo = { ...todo, ...action.payload };
-        return todo;
-      })
+      const updatedTodos = state.todos.map(todo =>
+        todo.id === action.payload.id ? { ...todo, ...action.payload } : todo
+      );
       return {
         ...state,
-        todos: [...updatedTodos]
+        todos: updatedTodos,
       };
     }
     case TodoActionKeys.CHANGE_ACTIVE_FILTER: {
@@ -74,16 +75,23 @@ export default (state: TodoState = initialState, action: TodoActionTypes): TodoS
       return {
         ...state,
         searchTerm: action.payload
-      }
+      };
     }
     case TodoActionKeys.SORT_TODOS: {
       return {
         ...state,
-        todos: [...state.todos].sort((a: ITodo, b: ITodo) => a[action.payload] > b[action.payload] ? 1 : -1)
-      }
+        todos: [...state.todos].sort((a: ITodo, b: ITodo) =>
+          a[action.payload] > b[action.payload] ? 1 : -1
+        )
+      };
+    }
+    case TodoActionKeys.TIME_TILL_END_TICK: {
+      return {
+        ...state,
+        todos: state.todos.map(decrementTimeTillEndIfInProgress)
+      };
     }
     default:
       return state;
   }
-
-}
+};
