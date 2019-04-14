@@ -44,3 +44,6 @@ export const searchTermChange = (newTerm: string) => ({
   payload: newTerm
 });
 
+export const timeTillEndTick = () => ({
+  type: TodoActionKeys.TIME_TILL_END_TICK
+})
