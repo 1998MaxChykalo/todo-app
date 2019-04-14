@@ -1,5 +1,13 @@
-import { decrementTimeTillEnd, decrementTimeTillEndIfInProgress } from "./decrementTimeTillEnd";
+import {
+  decrementTimeTillEnd,
+  decrementTimeTillEndIfInProgress
+} from "./decrementTimeTillEnd";
 import { isInProgress } from "./isInProgress";
+import mapTimeToMilliseconds from "./mapTimeToMilliseconds";
 
-
-export default { decrementTimeTillEnd, isInProgress, decrementTimeTillEndIfInProgress };
+export {
+  decrementTimeTillEnd,
+  isInProgress,
+  decrementTimeTillEndIfInProgress,
+  mapTimeToMilliseconds
+};

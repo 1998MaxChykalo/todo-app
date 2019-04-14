@@ -1,7 +1,8 @@
 import { CreateTodoModel } from './../../dto/create-todo.model';
-import { TodoStatus, ITodo, ISortableTodoColumns } from './../../reducers/todoReducer';
 import { TodoActionKeys } from './types';
 import { UpdateTodoModel } from '../../dto/update-todo.model';
+import { TodoStatus } from '../../models/todo/TodoStatus';
+import ISortableTodoColumns from '../../models/todo/ISortableTodoColumns';
 
 export const updateTodo = (todo: UpdateTodoModel) => ({
   type: TodoActionKeys.UPDATE_TODO,

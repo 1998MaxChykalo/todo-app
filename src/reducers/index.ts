@@ -1,6 +1,5 @@
-import todoReducer, { TodoState } from "./todoReducer";
-import { combineReducers, Reducer } from "redux";
+import todoReducer from "./todo/todoReducer";
+import { combineReducers } from "redux";
 
-// TODO: "as any" is used to remove errors caused by redux.
-export const rootReducer = combineReducers({todos : todoReducer} as any);
+export const rootReducer = combineReducers({todos : todoReducer});
 

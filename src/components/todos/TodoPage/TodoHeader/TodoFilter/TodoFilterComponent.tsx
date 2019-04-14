@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { TodoStatus } from '../../../../../reducers/todoReducer';
 
 import styled from "styled-components";
 
 import { Radio } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { TodoStatus } from '../../../../../models/todo/TodoStatus';
 
 interface Props {
   activeFilter: TodoStatus;

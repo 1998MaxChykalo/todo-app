@@ -1,6 +1,7 @@
 import { UpdateTodoModel } from './../../dto/update-todo.model';
-import { CreateTodoModel } from './../../dto/create-todo.model';
-import { TodoStatus, ITodo, ISortableTodoColumns } from './../../reducers/todoReducer';
+import ITodo from '../../models/todo/ITodo';
+import { TodoStatus } from '../../models/todo/TodoStatus';
+import ISortableTodoColumns from '../../models/todo/ISortableTodoColumns';
 
 export enum TodoActionKeys {
   ADD_TODO = 'ADD_TODO',

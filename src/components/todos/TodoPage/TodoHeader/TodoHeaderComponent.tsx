@@ -1,9 +1,9 @@
 import React from 'react';
 import { Input, Icon, Select } from 'antd';
 
-import { TodoStatus } from '../../../../reducers/todoReducer';
 import { TodoFilter } from './TodoFilter/TodoFilter';
 import i18next from 'i18next';
+import { TodoStatus } from '../../../../models/todo/TodoStatus';
 
 interface Props {
   activeFilter: TodoStatus;
