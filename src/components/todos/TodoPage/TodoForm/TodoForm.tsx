@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { TodoForm } from './TodoFormComponent';
-import { addTodo } from '../../../../actions/todo/actions';
 import { CreateTodoModel } from '../../../../dto/create-todo.model';
+import { addTodo } from '../../../../redux/actions/todo/actions';
 
 interface DispatchFromProps {
   addTodo(values: CreateTodoModel): void;

@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
-import { AppState } from './store';
+import { AppState } from './redux/store';
 import ITodo from './models/todo/ITodo';
 
 interface Props {

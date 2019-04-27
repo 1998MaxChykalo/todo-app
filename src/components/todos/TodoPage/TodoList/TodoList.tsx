@@ -1,16 +1,12 @@
 import { connect } from 'react-redux';
 
-import { AppState } from './../../../../store';
-
-import { deleteTodo, updateTodo, sortTodos } from '../../../../actions/todo/actions';
-
-import { getActiveTodosByTerm } from '../../../../selectors/todo-selectors';
-
-
 import { TodoListComponent } from './TodoListComponent';
 import { UpdateTodoModel } from '../../../../dto/update-todo.model';
 import ITodo from '../../../../models/todo/ITodo';
 import ISortableTodoColumns from '../../../../models/todo/ISortableTodoColumns';
+import { AppState } from '../../../../redux/store';
+import { getActiveTodosByTerm } from '../../../../redux/selectors/todo-selectors';
+import { deleteTodo, updateTodo, sortTodos } from '../../../../redux/actions/todo/actions';
 
 export interface IStateProps { 
   todos: ITodo[];

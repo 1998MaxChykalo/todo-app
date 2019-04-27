@@ -1,18 +1,40 @@
 import { ITodoState } from "./ITodoState";
 import initialState from "./initialState";
-import ITodo from "../../models/todo/ITodo";
+import ITodo from "../../../models/todo/ITodo";
+import { decrementTimeTillEndIfInProgress } from "../../../utils/todo/decrementTimeTillEnd";
+import ISortableTodoColumns from "../../../models/todo/ISortableTodoColumns";
 import { TodoActionTypes, TodoActionKeys } from "../../actions/todo/types";
-import { decrementTimeTillEndIfInProgress } from "../../utils/todo/decrementTimeTillEnd";
+
+const compareBy = (column: keyof ISortableTodoColumns) =>
+  (a: ITodo, b: ITodo) =>
+    a[column] > b[column]
+      ? 1 : a[column] < b[column]
+        ? -1 : 0;
 
 export default (
   state: ITodoState = initialState,
   action: TodoActionTypes
 ): ITodoState => {
   switch (action.type) {
+    case TodoActionKeys.FETCH_TODOS_STARTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case TodoActionKeys.FETCH_TODOS_SUCCESS:
+      return {
+        ...state,
+        todos: [...action.payload]
+      };
+    case TodoActionKeys.FETCH_TODOS_FAILURE:
+      return {
+        ...state,
+        error: action.payload
+      };
     case TodoActionKeys.ADD_TODO:
       return {
         ...state,
-        todos: [...state.todos, { ...action.payload }]
+        todos: state.todos.concat(action.payload)
       };
     case TodoActionKeys.DELETE_TODO: {
       return {
@@ -44,9 +66,7 @@ export default (
     case TodoActionKeys.SORT_TODOS: {
       return {
         ...state,
-        todos: [...state.todos].sort((a: ITodo, b: ITodo) =>
-          a[action.payload] > b[action.payload] ? 1 : -1
-        )
+        todos: [...state.todos].sort(compareBy(action.payload))
       };
     }
     case TodoActionKeys.TIME_TILL_END_TICK: {

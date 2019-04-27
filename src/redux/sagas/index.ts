@@ -1,16 +1,15 @@
-import { timeTillEndTick } from './../actions/todo/actions';
 import { put, all, debounce, delay } from 'redux-saga/effects';
+import { TIME_DECREMENT } from '../../constants';
+import { updateSearchTerm, timeTillEndTick } from '../actions/todo/actions';
+import { UpdateSearchTermAction, TodoActionKeys } from '../actions/todo/types';
+import { watchFetchTodos } from './fetchTodos';
 
-import { TodoActionKeys, UpdateSearchTermAction, UpdateTodoAction, TimeTillEndTickAction } from './../actions/todo/types';
-import { updateSearchTerm, updateTodo } from '../actions/todo/actions';
-import { TIME_DECREMENT } from '../constants';
-
-export function* todoSearch(action: UpdateSearchTermAction) {
+export function* searchTodo(action: UpdateSearchTermAction) {
   yield put(updateSearchTerm(action.payload));
 }
 
 export function* watchTodoSearch(): IterableIterator<any> {
-  yield debounce(500, TodoActionKeys.SEARCH_TERM_CHANGED, todoSearch);
+  yield debounce(500, TodoActionKeys.SEARCH_TERM_CHANGED, searchTodo);
 }
 
 export function* watchTimeTillEndTick(): IterableIterator<any> {
@@ -24,5 +23,6 @@ export default function* rootSaga() {
   yield all([
     watchTodoSearch(),
     watchTimeTillEndTick(),
+    watchFetchTodos()
   ])
 }

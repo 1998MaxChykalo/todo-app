@@ -1,8 +1,28 @@
-import { CreateTodoModel } from './../../dto/create-todo.model';
-import { TodoActionKeys } from './types';
-import { UpdateTodoModel } from '../../dto/update-todo.model';
-import { TodoStatus } from '../../models/todo/TodoStatus';
-import ISortableTodoColumns from '../../models/todo/ISortableTodoColumns';
+import { TodoActionKeys, FetchTodosSuccessAction, FetchTodosFailureAction, FetchTodosStartedAction } from './types';
+import { UpdateTodoModel } from '../../../dto/update-todo.model';
+import ISortableTodoColumns from '../../../models/todo/ISortableTodoColumns';
+import { CreateTodoModel } from '../../../dto/create-todo.model';
+import { TodoStatus } from '../../../models/todo/TodoStatus';
+import ITodo from '../../../models/todo/ITodo';
+
+export const fetchTodos = () => ({
+  type: TodoActionKeys.FETCH_TODOS
+});
+
+export const fetchTodosStarted = () => <FetchTodosStartedAction>({
+  type: TodoActionKeys.FETCH_TODOS_STARTED
+});
+
+export const fetchTodosSuccess = (todos: ITodo[]) => <FetchTodosSuccessAction>({
+  type: TodoActionKeys.FETCH_TODOS_SUCCESS,
+  payload: todos
+});
+
+export const fetchTodosFailure = (errorMessage: string) => <FetchTodosFailureAction>({
+  type: TodoActionKeys.FETCH_TODOS_FAILURE,
+  payload: errorMessage
+});
+
 
 export const updateTodo = (todo: UpdateTodoModel) => ({
   type: TodoActionKeys.UPDATE_TODO,

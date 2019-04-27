@@ -7,10 +7,10 @@ import { IStateProps, IDispatchProps } from './TodoList';
 import { useTranslation } from 'react-i18next';
 
 import './TodoItem/TodoItem.scss';
-import { formatTime } from '../../../../selectors/todo-selectors';
 import FormItem from 'antd/lib/form/FormItem';
 import { TodoStatus } from '../../../../models/todo/TodoStatus';
 import ITodo from '../../../../models/todo/ITodo';
+import { formatTime } from '../../../../redux/selectors/todo-selectors';
 type Props = IStateProps & IDispatchProps;
 
 export const TodoListComponent: React.FC<Props> = ({ todos, deleteTodo, updateTodo, sortTodos }) => {

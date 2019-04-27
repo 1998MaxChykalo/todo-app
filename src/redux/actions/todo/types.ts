@@ -1,9 +1,13 @@
-import { UpdateTodoModel } from './../../dto/update-todo.model';
-import ITodo from '../../models/todo/ITodo';
-import { TodoStatus } from '../../models/todo/TodoStatus';
-import ISortableTodoColumns from '../../models/todo/ISortableTodoColumns';
+import ITodo from "../../../models/todo/ITodo";
+import { UpdateTodoModel } from "../../../dto/update-todo.model";
+import { TodoStatus } from "../../../models/todo/TodoStatus";
+import ISortableTodoColumns from "../../../models/todo/ISortableTodoColumns";
 
 export enum TodoActionKeys {
+  FETCH_TODOS = 'FETCH_TODOS',
+  FETCH_TODOS_STARTED = 'FETCH_TODOS_STARTED',
+  FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS',
+  FETCH_TODOS_FAILURE = 'FETCH_TODOS_FAILURE',
   ADD_TODO = 'ADD_TODO',
   UPDATE_TODO = 'UPDATE_TODO',
   DELETE_TODO = 'DELETE_TODO',
@@ -12,6 +16,7 @@ export enum TodoActionKeys {
   SEARCH_TERM_CHANGED = 'SEARCH_TERM_CHANGED',
   SORT_TODOS = 'SORT_TODOS',
   TIME_TILL_END_TICK = 'TIME_TILL_END_TICK',
+  UNKNOWN = 'UNKNOWN'
 };
 
 export interface AddTodoAction {
@@ -48,10 +53,37 @@ export interface TimeTillEndTickAction {
   readonly type: TodoActionKeys.TIME_TILL_END_TICK;
 }
 
-export type TodoActionTypes = AddTodoAction
+export interface UnknownAction {
+  readonly type: TodoActionKeys.UNKNOWN;
+}
+
+export interface FetchTodosStartedAction {
+  readonly type: TodoActionKeys.FETCH_TODOS_STARTED
+}
+
+export interface FetchTodos {
+  readonly type: TodoActionKeys.FETCH_TODOS
+}
+
+export interface FetchTodosSuccessAction {
+  readonly type: TodoActionKeys.FETCH_TODOS_SUCCESS,
+  readonly payload: ITodo[]
+}
+
+export interface FetchTodosFailureAction {
+  readonly type: TodoActionKeys.FETCH_TODOS_FAILURE,
+  readonly payload: string
+}
+
+export type TodoActionTypes = FetchTodos
+  | FetchTodosStartedAction
+  | FetchTodosSuccessAction
+  | FetchTodosFailureAction
+  | AddTodoAction
   | DeleteTodoAction
   | UpdateTodoAction
   | ChangeActiveFilterAction
   | UpdateSearchTermAction
   | SortTodosAction
-  | TimeTillEndTickAction;
+  | TimeTillEndTickAction
+  | UnknownAction;

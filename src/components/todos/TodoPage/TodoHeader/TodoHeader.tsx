@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 
-import { AppState } from '../.././../../store';
-import { changeActiveFilter, updateSearchTerm, searchTermChange } from './../../../../actions/todo/actions';
-import { getActiveFilter, getFilters } from './../../../../selectors/todo-selectors';
-
 import { TodoHeaderComponent } from './TodoHeaderComponent';
+import { changeActiveFilter, updateSearchTerm, searchTermChange } from '../../../../redux/actions/todo/actions';
+import { AppState } from '../../../../redux/store';
+import { getActiveFilter, getFilters } from '../../../../redux/selectors/todo-selectors';
 
 const mapDispatchToProps = {
   changeActiveFilter,
